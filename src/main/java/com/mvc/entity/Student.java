@@ -1,10 +1,12 @@
 package com.mvc.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by yeguo on 2018/3/11.
  */
-public class Student {
-    private byte[] uid;
+public class Student implements Serializable{
+    private int uid;
 
     private String name;
 
@@ -12,11 +14,11 @@ public class Student {
 
     private Integer classid;
 
-    public byte[] getUid() {
+    public int getUid() {
         return uid;
     }
 
-    public void setUid(byte[] uid) {
+    public void setUid(int uid) {
         this.uid = uid;
     }
 

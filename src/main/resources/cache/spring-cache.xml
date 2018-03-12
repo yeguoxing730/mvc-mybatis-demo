@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <!--开启spring cache注解-->
+    <cache:annotation-driven mode="proxy" cache-manager="cacheManager"/>
+    <!--CacheManager-->
+    <bean id="cacheManager" class="org.springframework.cache.jcache.JCacheCacheManager">
+        <property name="cacheManager" ref="jCacheManagerFactory"/>
+    </bean>
+    <!--这里的JCacheManagerFactory就相当于CachingProvider，通过CachingProvider就可以得到CacheManager，-->
+    <!--JCacheManagerFactoryBean是一个FactoryBean，通过getObject可以得到CacheManager实例-->
+    <bean id="jCacheManagerFactory"
+          class="org.springframework.cache.jcache.JCacheManagerFactoryBean">
+        <!--这里只能配置一个ehcache文件-->
+        <property name="cacheManagerUri" value="classpath:ehcache3-config.xml" />
+    </bean>
+
+</beans>

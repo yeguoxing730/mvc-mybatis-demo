@@ -5,8 +5,6 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.UUID;
-
 /**
  * Created by yeguo on 2018/3/11.
  */
@@ -23,12 +21,21 @@ public class MybatisTest {
 
     @Test
     public void testAddUser() {
+        studentService.selectByPrimaryKey(2);
+        studentService.selectByPrimaryKey(4);
+        int uid = 5;
         Student student = new Student();
         student.setAge(22);
         student.setClassid(0);
         student.setName("yeguoxing");
-        student.setUid("myuuuid".getBytes());
-        studentService.insert(student);
+        student.setUid(uid);
+//        studentService.insert(student);
+        studentService.selectByPrimaryKey(uid);
+        studentService.selectByPrimaryKey(uid);
+        student.setName("yeguoxing-change");
+        studentService.updateByPrimaryKeySelective(student);
+        studentService.selectByPrimaryKey(uid);
+        studentService.selectByPrimaryKey(uid);
     }
 
 }

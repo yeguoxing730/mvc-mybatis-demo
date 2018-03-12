@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
-  `Uid` binary(36) NOT NULL COMMENT 'Uid',
+  `Uid` int NOT NULL COMMENT 'Uid',
   `Name` varchar(20) NOT NULL,
   `Age` int(3) NOT NULL,
   `ClassId` int(3) NOT NULL,

@@ -8,13 +8,13 @@ import java.util.List;
  * Created by yeguo on 2018/3/11.
  */
 public interface IStudentService {
-    int deleteByPrimaryKey(byte[] uid);
+    int deleteByPrimaryKey(int uid);
 
     int insert(Student record);
 
     int insertSelective(Student record);
 
-    Student selectByPrimaryKey(byte[] uid);
+    Student selectByPrimaryKey(int uid);
 
     List<Student> selectByCondition(Student record);
 
