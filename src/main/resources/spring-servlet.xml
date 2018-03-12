@@ -26,15 +26,6 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
     <!--<mvc:resources location="/scripts/" mapping="/scripts/**" />-->
     <!--<mvc:resources location="/styles/" mapping="/styles/**" />-->
     <!--<mvc:resources location="/Views/" mapping="/Views/**" />-->
-    <!--避免IE执行AJAX时，返回JSON出现下载文件 -->
-    <bean id="mappingJacksonHttpMessageConverter"
-          class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-        <property name="supportedMediaTypes">
-            <list>
-                <value>text/html;charset=UTF-8</value>
-            </list>
-        </property>
-    </bean>
     <!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 -->
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
