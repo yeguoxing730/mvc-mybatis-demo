@@ -3,7 +3,7 @@
         xmlns='http://www.ehcache.org/v3'
         xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
     <!--缓存到磁盘的位置-->
-    <persistence directory="D:/data/mvc-mybatis/ehcache3"/>
+    <persistence directory="c:/data/mvc-mybatis/ehcache3"/>
     <!--缓存模板,每一个缓存可以基于这个模板添加修改,或直接使用-->
     <cache-template name="myDefaults">
         <!--缓存key的类型,不设置默认为Object-->

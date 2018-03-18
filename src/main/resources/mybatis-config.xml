@@ -7,7 +7,7 @@
         <property name="dialect" value="mysql" />
     </properties>
 <settings>
-    <setting name="logImpl" value="LOG4J" />
+
     <!-- 全局映射器启用缓存 默认true -->
     <setting name="cacheEnabled" value="true" />
     <!-- 查询时，关闭关联对象即时加载以提高性能 默认false -->
@@ -26,8 +26,9 @@
     <!-- <setting name="defaultExecutorType" value="BATCH" /> -->
     <!-- 数据库超过25000秒仍未响应则超时 sql执行时间-->
     <setting name="defaultStatementTimeout" value="180" />
-    <!-- 打印sql语句,测试 STDOUT_LOGGING  -->
+    <!-- 打印sql语句,测试 STDOUT_LOGGING 配置日志文件输出方式 -->
     <!-- <setting name="logImpl" value="NO_LOGGING"/>-->
+    <setting name="logImpl" value="LOG4J" />
     <setting name="logImpl" value="STDOUT_LOGGING" />
    </settings>
     <typeAliases>
@@ -46,6 +47,5 @@
     </environments>
     <mappers>
         <mapper resource="mapper/StudentMapper.xml" />
-
     </mappers>
 </configuration>

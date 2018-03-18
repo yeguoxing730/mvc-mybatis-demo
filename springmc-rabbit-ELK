@@ -1,0 +1,13 @@
+springmve 产生的log发送到rabbitmq
+然后ELK从里面抽取数据，从kanban查看日志 避免了没有系统权限的或者对Linux不熟悉的人
+对日志的查看问题
+
+
+
+
+这种方式还有
+springmvc - >reids -> ELK
+
+springmvc -> log4j -> elk
+springmvc -> logback ->elk
+springmvc -> kafka ->ELK

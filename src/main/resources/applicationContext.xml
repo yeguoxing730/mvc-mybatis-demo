@@ -8,6 +8,8 @@
     <context:annotation-config />
     <!-- 配置component所在的包，自动加载需要管理的Bean -->
     <context:component-scan base-package="com.mvc.service,com.mvc.dao" />
+    <!--mybatis 配置-->
     <import resource="spring-mybatis.xml" />
+    <!--mybatis二级缓存配置-->
     <import resource="cache/spring-cache.xml" />
 </beans>
