@@ -1,0 +1,33 @@
+step1:download zookeeper-3..4.10
+http://zookeeper.apache.org/releases.html
+ 把conf/zoo_sample.cfg 重命名为zoo.cfg
+step2:编辑zoo.cfg
+修改dataDir为C:\zookeeper-3.4.10\data
+step3:config env
+ZOOKEEPER_HOME:C:\zookeeper-3.4.10
+path添加;%ZOOKEEPER_HOME%\bin;
+
+step4:startup  zookeeper
+zkserver
+
+
+step5: download kafka211
+ http://kafka.apache.org/downloads.html
+step6:
+vi C:\kafka211\config\server.properties
+ 修改log.dirs C:\kafka211\kafka-logs
+
+ step7:startup kafka
+C:\kafka211\bin\windows>kafka-server-start.bat ../../config/server.properties
+
+cd C:\kafka211\bin\windows
+create topic
+
+kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+
+open producer
+kafka-console-producer.bat --broker-list localhost:9092 --topic test
+
+open consumer
+
+kafka-console-consumer.bat --zookeeper localhost:2181 --topic test

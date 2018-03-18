@@ -1,0 +1,44 @@
+﻿http://blog.csdn.net/luozhonghua2014/article/details/53891960
+1：安装RabbitMQ需要先安装Erlang语言开发包。下载地址http://www.erlang.org/download.html 在win7下安装Erlang最好默认安装。
+      设置环境变量ERLANG_HOME= C:\ProgramFiles\erlx.x.x 
+      添加到PATH  %ERLANG_HOME%\bin;
+ 
+2：安装RabbitMQ 下载地址http://www.rabbitmq.com/download.html  安装教程：http://www.rabbitmq.com/install-windows.html
+      设置环境变量RABBITMQ_SERVER=C:\ProgramFiles\rabbitmq_server-x.x.x。
+      添加到PATH %RABBITMQ_SERVER%\sbin;
+
+
+监控配置
+在cmd下（以管理员方式运行）：进入sbin目录，运行rabbitmq-server start
+rabbitmq-plugins.bat enable rabbitmq_management  
+安装完成之后以管理员身份启动
+rabbitmq-service.bat stop  
+rabbitmq-service.bat install  
+rabbitmq-service.bat start  
+浏览器访问localhost:15672  默认账号：guest  密码：guest
+
+
+
+cd :\Program Files\RabbitMQ Server\rabbitmq_server-3.6.2\etc
+ vim /etc/mqadmin.conf
+[default]
+hostname = localhost
+port = 5672
+username = elkuser
+password = elkpwd
+
+cd C:\Program Files\RabbitMQ Server\rabbitmq_server-3.6.2\sbin
+rabbitmqctl add_user elkuser elkpwd
+rabbitmqctl add_vhost elk
+rabbitmqctl set_permissions -p elk elkuser ".*" ".*" ".*"
+rabbitmqctl set_user_tags elkuser administrator
+rabbitmqctl list_permissions -p elk
+
+create exchange
+rabbitmqadmin -c /etc/mqadmin.conf declare exchange --vhost=elk name=elk_exchange type=direct
+创建一个queue
+rabbitmqadmin -c /etc/mqadmin.conf declare queue --vhost=elk name=elk_queue durable=true
+创建一个binding，绑定之前创建的exchange和queue并设置一个routing_key
+rabbitmqadmin -c /etc/mqadmin.conf --vhost=elk declare binding source="elk_exchange" destination="elk_queue" routing_key="elk_key"
+
+

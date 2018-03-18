@@ -1,0 +1,120 @@
+logstash从log4j获取输入 输出到elasticsearch
+除了可以从log4j取数据还可以从数据库/文件/redis取数据 然后指定输出位置
+step1: install elastic seach 5.4.3
+   elasticsearch-service.bat install
+   elasticsearch-service.bat manager
+设置为自启动 127.0.0.1:9200
+
+step2:install  logstash-2.4.1
+cd logstash/bin
+a.config
+vi log4j_es.conf
+input {
+    log4j {
+        host => "127.0.0.1"
+        port => 4560
+    }
+}
+
+output {
+    stdout {
+      codec => rubydebug
+    }
+    elasticsearch{
+        hosts => ["127.0.0.1:9200"]
+        index => "log4j-%{+YYYY.MM.dd}"
+        document_type => "log4j_type"
+    }
+}
+b.vi run.bat
+ logstash.bat -f log4j_es.conf
+C.install service
+nssm.exe  install logstash
+在弹出的界面设置 Path为run.bat,Details选项卡设置显示名，Dependencies选项卡设置依赖服务 elasticsearch-service-x64
+
+step3:install kibana
+vi conf/kibana.yml
+ elasticsearch.url: "http://127.0.0.1:9200"
+ server.port: 5601
+ server.host: 127.0.0.1
+ kibana.index: ".kibana"
+nssm.exe  install kibana
+安装服务的Path为kibana.bat，依赖项可以设置
+elasticsearch-service-x64
+logstash
+
+点击我的电脑-》右键 管理-》 服务  可以看到刚才装的三个服务，可以按照 es -logstash -<kibana 顺序启动起来
+
+http://www.ttlsa.com/log-system/troubleshooting-elk-common-issues/
+
+https://www.cnblogs.com/davidgu/p/6639307.html
+
+tips:
+1.file way
+logstash file
+mkdir log4j_file_es.config
+input {
+    file {
+       path => ["C:/ELK/logs/debug.log"]
+    }
+}
+
+output {
+    stdout {
+      codec => rubydebug
+    }
+    elasticsearch{
+        hosts => ["127.0.0.1:9200"]
+        index => "log4jfile-%{+YYYY.MM.dd}"
+        document_type => "log4jfile_type"
+    }
+}
+## run logstash
+logstash.bat -f log4j_file_es.conf
+
+2.redis way
+logstash_server.conf
+input {
+        redis {
+                host => "127.0.0.1"           #本地的reds地址
+                port => 6379                      #redis端口
+                type => "redis-input"           #输入类型
+                data_type => "list"               #使用redis的list存储数据
+                key => "key_count"
+        }
+}
+
+output {
+        stdout {}
+        elasticsearch {
+                hosts => ["127.0.0.1:9200"]               #elasticsearch地址
+                index => "redisfile-%{+YYYY.MM.dd}"
+				document_type => "redisfile_type"
+        }
+}
+logstash.bat -f logstash_server.conf
+
+logstash_client.conf
+input {
+    file {
+        path => "C:/ELK/logs/debug.log"
+        start_position => beginning
+        ignore_older => 0
+    }
+}
+output {
+        redis {
+                host => "127.0.0.1:6379"
+                data_type => "list"
+                key => "key_count"
+        }
+}
+logstash.bat -f logstsh_client.conf
+
+测试
+启动redis 监控
+redis-cli –p 6379 monitor
+## run logstash
+logstash.bat -f redis_config.conf
+4.rabbitmq way
+

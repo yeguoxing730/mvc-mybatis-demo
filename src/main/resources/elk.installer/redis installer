@@ -1,0 +1,10 @@
+step1:download redis-x64-3.1.100.zip
+step2:unzip redis and move to c:\redis
+step3:start redis server
+redis-server.exe redis.windows.conf
+step4.test redis client
+redis-cli.exe -h 127.0.0.1 -p 6379
+set key 123
+get key
+step5.install redis as windows service
+redis-server.exe --service-install redis.windows.conf
